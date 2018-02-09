@@ -8,6 +8,7 @@ var session = require('./authentication/sessions')
 var Auth = require('./authentication/auth')
 
 //declare routes
+var vaultRoutes = require('./routes/vault-routes')
 var keepRoutes = require('./routes/keep-routes')
 //
 //
@@ -43,6 +44,7 @@ app.use('/', Auth)
 app.use(Validate)
 // app.use('/api', api) <-- Base api stuff?
 app.use('/', defaultErrorHandler)
+app.use(vaultRoutes.protected)
 app.use(keepRoutes.protected)
 
 server.listen(port, () => {

@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
-// WHAT IS A SONG
+// WHAT IS A KEEP
 var schema = new mongoose.Schema({
     userId: { type: String, required: true },
     name: { type: String, required: true },
