@@ -17,9 +17,8 @@ let server = require('http').createServer(app)
 var port = 3000
 
 function Validate(req, res, next) {
-    // ONLY ALLOW GET METHOD IF NOT LOGGED IN 
     console.log(req.session)
-    if (req.method !== 'GET' && !req.session.uid) {
+    if (!req.session.uid) {
         return res.status(401).send({ error: 'Please Login or Register to continue' })
     }
     return next()
