@@ -3,12 +3,12 @@
         <div class="single-keep-div text-center thumbnail">
             <div class="image-div">
                 <img class="full-width keep-img" :src="keepProp.imageUrl" alt="Image Url">
-                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="hand-cursor image-button keep-button fa fa-xing"
+                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp._id" class="hand-cursor image-button keep-button fa fa-xing"
                     v-if="currentUser.username"></span>
                 <span data-toggle="modal" data-target="#pleaseLoginModal" class="hand-cursor image-button keep-button fa fa-xing" v-else></span>
                 <!-- WHEN YOU ADD SHARING, ADD ANOTHER BUTTON HERE TO ACCOUNT FOR USER LOGGED IN / OUT -->
-                <span data-toggle="modal" :data-target="'#share-modal' + keepProp.id" class="hand-cursor image-button share-button fa fa-share"></span>
-                <span @click="incrementViews" data-toggle="modal" :data-target="'#viewModal' + keepProp.id" class="hand-cursor image-button view-button fa fa-vimeo"></span>
+                <span data-toggle="modal" :data-target="'#share-modal' + keepProp._id" class="hand-cursor image-button share-button fa fa-share"></span>
+                <span @click="incrementSocials('views')" data-toggle="modal" :data-target="'#viewModal' + keepProp._id" class="hand-cursor image-button view-button fa fa-vimeo"></span>
             </div>
             <div class="keep-caption-div">
                 <span>
@@ -28,7 +28,7 @@
 
 
         <!-- KEEP (Add to vualt) MODAL -->
-        <div class="modal fade" :id="'keep-modal' + keepProp.id" tabindex="-1" role="dialog" aria-labelledby="keepModalLabel">
+        <div class="modal fade" :id="'keep-modal' + keepProp._id" tabindex="-1" role="dialog" aria-labelledby="keepModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -81,7 +81,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <span @click="submitKeepToVault(); incrementKeeps();" type="button" class="hand-cursor btn btn-primary">Keep!</span>
+                        <span @click="submitKeepToVault(); incrementSocials('keeps');" type="button" class="hand-cursor btn btn-primary">Keep!</span>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -93,7 +93,7 @@
 
 
         <!-- VIEW MODAL -->
-        <div class="modal fade" :id="'viewModal' + keepProp.id" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel">
+        <div class="modal fade" :id="'viewModal' + keepProp._id" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -159,7 +159,7 @@
 
 
         <!-- SHARE MODAL -->
-        <div class="modal fade" :id="'share-modal' + keepProp.id" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel">
+        <div class="modal fade" :id="'share-modal' + keepProp._id" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -206,15 +206,30 @@
             // this.$store.dispatch('getKeeps')
         },
         methods: {
-            incrementViews() {
-                this.$store.dispatch('incrementViews', { keep: this.keepProp })
+            incrementSocials(socialArg) {
+                if(socialArg == "views"){
+                    this.keepProp.views++
+                    this.$store.dispatch('incrementSocials', { currentUser: this.currentUser, keep: this.keepProp, keepData: { views: this.keepProp.views } })
+                }else if(socialArg == "keeps"){
+                    this.keepProp.keeps++
+                    this.$store.dispatch('incrementSocials', { currentUser: this.currentUser, keep: this.keepProp, keepData: { keeps: this.keepProp.keeps } })
+                }
+                // this.$store.dispatch('updateKeep', { currentUser: this.currentUser, keep: this.keepProp, keepData: { views: this.keepProp.views } })
+                // this.$store.dispatch('incrementViews', { keep: this.keepProp })
             },
-            incrementKeeps() {
-                this.$store.dispatch('incrementKeeps', { keep: this.keepProp })
-            },
+            // incrementViews() {
+            //     this.keepProp.views++
+            //     this.$store.dispatch('updateKeep', { currentUser: this.currentUser, keep: this.keepProp, keepData: { views: this.keepProp.views } })
+            //     // this.$store.dispatch('incrementViews', { keep: this.keepProp })
+            // },
+            // incrementKeeps() {
+            //     this.keepProp.keeps++
+            //     this.$store.dispatch('updateKeep', { currentUser: this.currentUser, keep: this.keepProp, keepData: { views: this.keepProp.keeps } })
+            //     // this.$store.dispatch('incrementKeeps', { keep: this.keepProp })
+            // },
             setCurrentVaultAndKeeps(vault) {
                 this.$store.dispatch('setCurrentVault', vault)
-                this.$store.dispatch('getKeepsInVault', vault.id)
+                this.$store.dispatch('getKeepsInVault', vault._id)
             },
             submitKeepToVault() {
                 // var vaultKeep = {

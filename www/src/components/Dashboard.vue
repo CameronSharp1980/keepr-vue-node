@@ -263,6 +263,7 @@
             submitVault() {
                 this.makeVault.userId = this.currentUser._id
                 this.$store.dispatch('submitVault', { currentUser: this.currentUser, vault: this.makeVault })
+                // this.$store.dispatch('getUserVaults', this.currentUser._id)
                 this.resetForms()
             },
             removeVault(vault) {
@@ -273,7 +274,7 @@
             },
             setCurrentVaultAndKeeps(vault) {
                 this.$store.dispatch('setCurrentVault', vault)
-                this.$store.dispatch('getKeepsInVault', vault.id)
+                this.$store.dispatch('getKeepsInVault', vault._id)
             },
             togglePublic(keep) {
                 this.$store.dispatch('togglePublic', { currentUser: this.currentUser, keep: keep })

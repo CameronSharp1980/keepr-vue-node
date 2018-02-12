@@ -163,7 +163,7 @@ var store = new Vuex.Store({
                     commit('handleError', err)
                 })
                 .then(res => {
-                    dispatch('getUserVaults', payload.currentUser.id)
+                    dispatch('getUserVaults', payload.currentUser._id)
                 })
                 .catch(err => {
                     commit('handleError', err)
@@ -294,9 +294,11 @@ var store = new Vuex.Store({
                     commit('handleError', err)
                 })
         },
+        // IMPLEMENT ABILITY TO EDIT KEEP AND VAULT DETAILS.
         updateKeep({ commit, dispatch }, payload) {
-            if (payload.currentUser.id == payload.keep.userId) {
-                api.put(`keeps/${payload.keep.id}`, payload.keep)
+            console.log(payload)
+            if (payload.currentUser._id == payload.keep.userId) {
+                api.put(`keeps/${payload.keep._id}`, payload.keepData)
                     .then(res => {
                         if (res) {
                             commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
@@ -311,7 +313,7 @@ var store = new Vuex.Store({
                     })
                     .then(res => {
                         dispatch('getKeeps')
-                        dispatch('getUserKeeps', payload.currentUser.id)
+                        dispatch('getUserKeeps', payload.currentUser._id)
                     })
                     .catch(err => {
                         commit('handleError', err)
@@ -320,52 +322,78 @@ var store = new Vuex.Store({
                 commit('handleError', { message: 'You are not the owner of that keep, and therefore not authorized to update it.' })
             }
         },
-        incrementViews({ commit, dispatch }, payload) {
-            payload.keep.views++
-            api.put(`keeps/${payload.keep._id}/views`, { views: payload.keep.views })
-                .then(res => {
-                    if (res) {
-                        commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
-                        return res
-                    } else {
-                        commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
-                        return res
-                    }
-                })
-                .catch(err => {
-                    commit('handleError', err)
-                })
-                .then(res => {
-                    dispatch('getKeeps')
-                    dispatch('getUserKeeps', payload.currentUser.id)
-                })
-                .catch(err => {
-                    commit('handleError', err)
-                })
+        incrementSocials({ commit, dispatch }, payload) {
+            if (payload.keepData.views || payload.keepData.keeps) {
+                api.put(`keeps/${payload.keep._id}`, payload.keepData)
+                    .then(res => {
+                        if (res) {
+                            commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
+                            return res
+                        } else {
+                            commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
+                            return res
+                        }
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+                    .then(res => {
+                        dispatch('getKeeps')
+                        dispatch('getUserKeeps', payload.currentUser._id)
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+            } else {
+                commit('handleError', { message: 'You are not the owner of that keep, and therefore not authorized to update it.' })
+            }
         },
-        incrementKeeps({ commit, dispatch }, payload) {
-            payload.keep.keeps++
-            api.put(`keeps/${payload.keep._id}/keeps`, { keeps: payload.keep.keeps })
-                .then(res => {
-                    if (res) {
-                        commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
-                        return res
-                    } else {
-                        commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
-                        return res
-                    }
-                })
-                .catch(err => {
-                    commit('handleError', err)
-                })
-                .then(res => {
-                    dispatch('getKeeps')
-                    dispatch('getUserKeeps', payload.currentUser._id)
-                })
-                .catch(err => {
-                    commit('handleError', err)
-                })
-        },
+        // incrementViews({ commit, dispatch }, payload) {
+        //     payload.keep.views++
+        //     api.put(`keeps/${payload.keep._id}/views`, { views: payload.keep.views })
+        //         .then(res => {
+        //             if (res) {
+        //                 commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
+        //                 return res
+        //             } else {
+        //                 commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
+        //                 return res
+        //             }
+        //         })
+        //         .catch(err => {
+        //             commit('handleError', err)
+        //         })
+        //         .then(res => {
+        //             dispatch('getKeeps')
+        //             dispatch('getUserKeeps', payload.currentUser.id)
+        //         })
+        //         .catch(err => {
+        //             commit('handleError', err)
+        //         })
+        // },
+        // incrementKeeps({ commit, dispatch }, payload) {
+        //     payload.keep.keeps++
+        //     api.put(`keeps/${payload.keep._id}/keeps`, { keeps: payload.keep.keeps })
+        //         .then(res => {
+        //             if (res) {
+        //                 commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
+        //                 return res
+        //             } else {
+        //                 commit('setMessage', `Keep: ${payload.keep.name} was not updated successfully`)
+        //                 return res
+        //             }
+        //         })
+        //         .catch(err => {
+        //             commit('handleError', err)
+        //         })
+        //         .then(res => {
+        //             dispatch('getKeeps')
+        //             dispatch('getUserKeeps', payload.currentUser._id)
+        //         })
+        //         .catch(err => {
+        //             commit('handleError', err)
+        //         })
+        // },
         togglePublic({ commit, dispatch }, payload) {
             if (payload.currentUser._id == payload.keep.userId) {
                 payload.keep.public = !payload.keep.public
@@ -433,9 +461,10 @@ var store = new Vuex.Store({
         },
         submitKeepToVault({ commit, dispatch }, payload) {
             payload.vault.vaultKeeps.push(payload.keep._id)
+            console.log(payload.vault.vaultKeeps)
             // payload.vaultKeep.userId = payload.currentUser.id 
             // console.log(payload.vaultKeep)
-            api.put(`vaults/${payload.vault._id}`, payload.vault.vaultKeeps)
+            api.put(`vaults/${payload.vault._id}`, { vaultKeeps: payload.vault.vaultKeeps })
                 .then(res => {
                     if (res) {
                         //res = whole posting or res.data = whole posting?
