@@ -7,7 +7,8 @@ var schema = new mongoose.Schema({
     userId: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: false },
-    vaultKeeps: [{ type: mongoose.Schema.ObjectId, ref: 'Keep', required: false, default: null }]
+    // vaultKeeps: [{ type: mongoose.Schema.ObjectId, ref: 'Keep', required: false, default: null }]
+    vaultKeeps: [{ type: String, required: false, default: null }]
 });
 
 module.exports = mongoose.model('Vault', schema);

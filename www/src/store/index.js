@@ -461,7 +461,6 @@ var store = new Vuex.Store({
         },
         submitKeepToVault({ commit, dispatch }, payload) {
             payload.vault.vaultKeeps.push(payload.keep._id)
-            console.log(payload.vault.vaultKeeps)
             // payload.vaultKeep.userId = payload.currentUser.id 
             // console.log(payload.vaultKeep)
             api.put(`vaults/${payload.vault._id}`, { vaultKeeps: payload.vault.vaultKeeps })

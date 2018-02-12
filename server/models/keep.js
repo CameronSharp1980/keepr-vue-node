@@ -17,10 +17,13 @@ var schema = new mongoose.Schema({
 
 schema.pre('remove', function (next) {
     // CAN YOU USE $in TO CHECK INSIDE THE ARRAY FOR A VALUE?
-    Vaults.updateMany({}, { $pull: { "vaultKeeps": this._id } })
-        .then((vault) => {
-            res.send({ message: `Successfully removed keep ${this._id}` })
-        })
+    var thisId = this._id.toString()
+    console.log(thisId)
+    Vaults.updateMany({ "vaultKeeps": thisId }, { $pull: { "vaultKeeps": thisId } })
+    // next()
+    // .then((vault) => {
+    //     res.send({ message: `Successfully removed keep ${this._id}` })
+    // })
     // .catch(err => res.status(400).send(err))
 })
 
