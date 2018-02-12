@@ -3,7 +3,8 @@
         <div class="single-keep-div text-center thumbnail">
             <div class="image-div">
                 <img class="full-width keep-img" :src="keepProp.imageUrl" alt="Image Url">
-                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="hand-cursor image-button keep-button fa fa-xing" v-if="currentUser.username"></span>
+                <span data-toggle="modal" :data-target="'#keep-modal' + keepProp.id" class="hand-cursor image-button keep-button fa fa-xing"
+                    v-if="currentUser.username"></span>
                 <span data-toggle="modal" data-target="#pleaseLoginModal" class="hand-cursor image-button keep-button fa fa-xing" v-else></span>
                 <!-- WHEN YOU ADD SHARING, ADD ANOTHER BUTTON HERE TO ACCOUNT FOR USER LOGGED IN / OUT -->
                 <span data-toggle="modal" :data-target="'#share-modal' + keepProp.id" class="hand-cursor image-button share-button fa fa-share"></span>
@@ -216,12 +217,12 @@
                 this.$store.dispatch('getKeepsInVault', vault.id)
             },
             submitKeepToVault() {
-                var vaultKeep = {
-                    vaultId: this.currentVault.id,
-                    keepId: this.keepProp.id,
-                    userId: this.currentUser.id
-                }
-                this.$store.dispatch('submitKeepToVault', { currentUser: this.currentUser, vaultKeep: vaultKeep, vaultId: this.currentVault.id })
+                // var vaultKeep = {
+                //     vaultId: this.currentVault.id,
+                //     keepId: this.keepProp.id,
+                //     userId: this.currentUser.id
+                // }
+                this.$store.dispatch('submitKeepToVault', { currentUser: this.currentUser, vault: this.currentVault, keep: this.keepProp })
             }
         },
         computed: {

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
+let Vaults = require('./vault')
 
 // WHAT IS A KEEP
 var schema = new mongoose.Schema({
@@ -13,5 +14,14 @@ var schema = new mongoose.Schema({
     shares: { type: Number, required: true, default: 0 },
     public: { type: Boolean, required: true, default: false }
 });
+
+schema.pre('remove', function (next) {
+    // CAN YOU USE $in TO CHECK INSIDE THE ARRAY FOR A VALUE?
+    Vaults.updateMany({}, { $pull: { "vaultKeeps": `${req.params.keepId}` } })
+        .then((vault) => {
+            res.send({ message: `Successfully removed keep ${req.params.keepId} from Vault ${req.params.vaultId}` })
+        })
+    // .catch(err => res.status(400).send(err))
+})
 
 module.exports = mongoose.model('Keep', schema);

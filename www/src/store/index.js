@@ -169,31 +169,32 @@ var store = new Vuex.Store({
                     commit('handleError', err)
                 })
         },
-        updateVault({ commit, dispatch }, payload) {
-            if (payload.currentUser.id == payload.vault.userId) {
-                api.put(`vaults/${payload.vault.id}`)
-                    .then(res => {
-                        if (res) {
-                            commit('setMessage', `Vault: ${payload.vault.name} updated successfully`)
-                            return res
-                        } else {
-                            commit('setMessage', `Vault: ${payload.vault.name} was not updated successfully`)
-                            return res
-                        }
-                    })
-                    .catch(err => {
-                        commit('handleError', err)
-                    })
-                    .then(res => {
-                        dispatch('getUserVaults', payload.currentUser.id)
-                    })
-                    .catch(err => {
-                        commit('handleError', err)
-                    })
-            } else {
-                commit('handleError', { message: 'You are not the owner of that vault, and therefore not authorized to update it.' })
-            }
-        },
+        // NOT CURRENTLY IMPLEMENTED
+        // updateVault({ commit, dispatch }, payload) {
+        //     if (payload.currentUser.id == payload.vault.userId) {
+        //         api.put(`vaults/${payload.vault.id}`)
+        //             .then(res => {
+        //                 if (res) {
+        //                     commit('setMessage', `Vault: ${payload.vault.name} updated successfully`)
+        //                     return res
+        //                 } else {
+        //                     commit('setMessage', `Vault: ${payload.vault.name} was not updated successfully`)
+        //                     return res
+        //                 }
+        //             })
+        //             .catch(err => {
+        //                 commit('handleError', err)
+        //             })
+        //             .then(res => {
+        //                 dispatch('getUserVaults', payload.currentUser.id)
+        //             })
+        //             .catch(err => {
+        //                 commit('handleError', err)
+        //             })
+        //     } else {
+        //         commit('handleError', { message: 'You are not the owner of that vault, and therefore not authorized to update it.' })
+        //     }
+        // },
         removeVault({ commit, dispatch }, payload) {
             if (payload.currentUser.id == payload.vault.userId) {
                 api.delete(`vaults/${payload.vault.id}`)
@@ -220,8 +221,8 @@ var store = new Vuex.Store({
             }
         },
         removeKeepFromVault({ commit, dispatch }, payload) {
-            if (payload.currentUser.id == payload.currentVault.userId) {
-                api.delete(`vaults/${payload.currentVault.id}/keeps/${payload.keep.id}`)
+            if (payload.currentUser._id == payload.currentVault.userId) {
+                api.put(`vaults/${payload.currentVault.id}/keeps/${payload.keep.id}`)
                     .then(res => {
                         if (res) {
                             commit('setMessage', `Keep: ${payload.keep.name} removed successfully from Vault: ${payload.currentVault.name}`)
@@ -235,8 +236,8 @@ var store = new Vuex.Store({
                         commit('handleError', err)
                     })
                     .then(res => {
-                        dispatch('getUserVaults', payload.currentUser.id)
-                        dispatch('getKeepsInVault', payload.currentVault.id)
+                        dispatch('getUserVaults', payload.currentUser._id)
+                        dispatch('getKeepsInVault', payload.currentVault._id)
                     })
                     .catch(err => {
                         commit('handleError', err)
@@ -321,7 +322,7 @@ var store = new Vuex.Store({
         },
         incrementViews({ commit, dispatch }, payload) {
             payload.keep.views++
-            api.put(`keeps/${payload.keep.id}/views`, payload.keep)
+            api.put(`keeps/${payload.keep._id}/views`, { views: payload.keep.views })
                 .then(res => {
                     if (res) {
                         commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
@@ -344,7 +345,7 @@ var store = new Vuex.Store({
         },
         incrementKeeps({ commit, dispatch }, payload) {
             payload.keep.keeps++
-            api.put(`keeps/${payload.keep.id}/keeps`, payload.keep)
+            api.put(`keeps/${payload.keep._id}/keeps`, { keeps: payload.keep.keeps })
                 .then(res => {
                     if (res) {
                         commit('setMessage', `Keep: ${payload.keep.name} updated successfully`)
@@ -359,7 +360,7 @@ var store = new Vuex.Store({
                 })
                 .then(res => {
                     dispatch('getKeeps')
-                    dispatch('getUserKeeps', payload.currentUser.id)
+                    dispatch('getUserKeeps', payload.currentUser._id)
                 })
                 .catch(err => {
                     commit('handleError', err)
@@ -422,7 +423,7 @@ var store = new Vuex.Store({
         //#region VaultKeep Functions
 
         getKeepsInVault({ commit, dispatch }, vaultId) {
-            api(`vaultkeeps/${vaultId}`)
+            api(`vaults/${vaultId}/keeps`)
                 .then(res => {
                     commit('setCurrentVaultKeeps', res.data)
                 })
@@ -431,22 +432,23 @@ var store = new Vuex.Store({
                 })
         },
         submitKeepToVault({ commit, dispatch }, payload) {
-            payload.vaultKeep.userId = payload.currentUser.id
+            payload.vault.vaultKeeps.push(payload.keep._id)
+            // payload.vaultKeep.userId = payload.currentUser.id 
             // console.log(payload.vaultKeep)
-            api.post('vaultKeeps', payload.vaultKeep)
+            api.put(`vaults/${payload.vault._id}`, payload.vault.vaultKeeps)
                 .then(res => {
                     if (res) {
                         //res = whole posting or res.data = whole posting?
-                        commit('setMessage', `New VaultKeep posted successfully`)
+                        commit('setMessage', `Keep ${payload.keep.name} added successfully to vault ${payload.vault.name}`)
                     } else {
-                        commit('setMessage', `New VaultKeep did NOT post successfully`)
+                        commit('setMessage', `Keep ${payload.keep.name} did NOT post successfully to vault ${payload.vault.name}`)
                     }
                 })
                 .catch(err => {
                     commit('handleError', err)
                 })
                 .then(res => {
-                    dispatch('getKeepsInVault', payload.vaultId)
+                    dispatch('getKeepsInVault', payload.vault._id)
                 })
                 .catch(err => {
                     commit('handleError', err)
