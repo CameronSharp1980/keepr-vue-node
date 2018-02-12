@@ -149,7 +149,7 @@ var store = new Vuex.Store({
                 })
         },
         submitVault({ commit, dispatch }, payload) {
-            console.log(payload.vault)
+            // console.log(payload.vault)
             api.post('vaults', payload.vault)
                 .then(res => {
                     if (res) {

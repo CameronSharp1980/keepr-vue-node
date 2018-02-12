@@ -43,8 +43,12 @@ protectedKeepRoutes.put('/api/keeps/:keepId', (req, res, next) => {
 })
 
 protectedKeepRoutes.delete('/api/keeps/:id', (req, res, next) => {
-    Keeps.findByIdAndRemove(req.params.id)
+    Keeps.findOne({ _id: req.params.id }, function (err, keep) {
+        // console.log(keep)
+        keep.remove()
+    })
         .then((keep) => {
+
             res.send({ message: `Successfully removed keep at ${req.params.id}` })
         })
         .catch(err => res.status(400).send(err))
