@@ -16,15 +16,28 @@ var schema = new mongoose.Schema({
 });
 
 schema.post('remove', function (next) {
-    console.log("Inside .post hook")
-    Vaults.update(
+    // console.log(`this._id = ${this._id}`)
+    var thisId = this._id.toString()
+
+    Vaults.updateMany(
         {},
-        { $pull: { vaultKeeps: { $in: [this._id.toString()] }, vaultKeeps: this._id.toString() } },
-        { multi: true }
+        { $pull: { "vaultKeeps": { thisId } } }
     )
+
+    // Vaults.update(
+    //     {},
+    //     { $pull: { vaultKeeps: { $in: [this._id.toString()] }, vaultKeeps: this._id.toString() } },
+    //     { multi: true }
+    // )
+
+    // Vaults.find({ vaultKeeps: thisId })
+    //     .then(vaults => {
+    //         console.log(vaults)
+    //     })
+
     // next()
     // .then((vault) => {
-    //     res.send({ message: `Successfully removed keep ${this._id}` })
+    //     res.send({ message: `Successfully removed keep ${this._id} - ${thisId}` })
     // })
     // .catch(err => res.status(400).send(err))
 })
