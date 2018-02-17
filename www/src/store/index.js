@@ -196,8 +196,8 @@ var store = new Vuex.Store({
         //     }
         // },
         removeVault({ commit, dispatch }, payload) {
-            if (payload.currentUser.id == payload.vault.userId) {
-                api.delete(`vaults/${payload.vault.id}`)
+            if (payload.currentUser._id == payload.vault.userId) {
+                api.delete(`vaults/${payload.vault._id}`)
                     .then(res => {
                         if (res) {
                             commit('setMessage', `Vault: ${payload.vault.name} removed successfully`)
@@ -211,7 +211,7 @@ var store = new Vuex.Store({
                         commit('handleError', err)
                     })
                     .then(res => {
-                        dispatch('getUserVaults', payload.currentUser.id)
+                        dispatch('getUserVaults', payload.currentUser._id)
                     })
                     .catch(err => {
                         commit('handleError', err)
@@ -222,7 +222,7 @@ var store = new Vuex.Store({
         },
         removeKeepFromVault({ commit, dispatch }, payload) {
             if (payload.currentUser._id == payload.currentVault.userId) {
-                api.put(`vaults/${payload.currentVault.id}/keeps/${payload.keep.id}`)
+                api.put(`vaults/${payload.currentVault._id}/keeps/${payload.keep._id}`)
                     .then(res => {
                         if (res) {
                             commit('setMessage', `Keep: ${payload.keep.name} removed successfully from Vault: ${payload.currentVault.name}`)
@@ -273,7 +273,7 @@ var store = new Vuex.Store({
                 })
         },
         submitKeep({ commit, dispatch }, payload) {
-            console.log(payload.keep)
+            // console.log(payload.keep)
             api.post('keeps', payload.keep)
                 .then(res => {
                     if (res) {

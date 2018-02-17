@@ -16,30 +16,17 @@ var schema = new mongoose.Schema({
 });
 
 schema.post('remove', function (next) {
-    // console.log(`this._id = ${this._id}`)
-    var thisId = this._id.toString()
-
-    Vaults.updateMany(
-        {},
-        { $pull: { "vaultKeeps": { thisId } } }
-    )
-
-    // Vaults.update(
-    //     {},
-    //     { $pull: { vaultKeeps: { $in: [this._id.toString()] }, vaultKeeps: this._id.toString() } },
-    //     { multi: true }
-    // )
-
-    // Vaults.find({ vaultKeeps: thisId })
-    //     .then(vaults => {
-    //         console.log(vaults)
-    //     })
-
-    // next()
-    // .then((vault) => {
-    //     res.send({ message: `Successfully removed keep ${this._id} - ${thisId}` })
-    // })
-    // .catch(err => res.status(400).send(err))
+    Vaults.find({})
+        .then(vaults => {
+            vaults.forEach(vault => {
+                vault.vaultKeeps.pull(this._id.toString())
+                vault.save().then(next).catch(err => {
+                    console.log("Keep reference not removed from vault")
+                    next()
+                })
+            })
+        })
+        .catch(next)
 })
 
 module.exports = mongoose.model('Keep', schema);
