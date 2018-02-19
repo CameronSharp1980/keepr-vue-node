@@ -1,5 +1,5 @@
 {
-  "name": "keepr-vue-node Server",
+  "name": "keepr-vue-node-server",
   "version": "1.0.0",
   "description": "Server for keepr-vue-node",
   "main": "index.js",
