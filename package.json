@@ -1,7 +1,7 @@
 {
-  "name": "vue-inspire-server",
+  "name": "keepr-vue-node Server",
   "version": "1.0.0",
-  "description": "Server for vue-inspire",
+  "description": "Server for keepr-vue-node",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
