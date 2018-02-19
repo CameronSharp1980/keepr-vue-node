@@ -451,13 +451,17 @@ var store = new Vuex.Store({
         //#region VaultKeep Functions
 
         getKeepsInVault({ commit, dispatch }, vaultId) {
-            api(`vaults/${vaultId}/keeps`)
-                .then(res => {
-                    commit('setCurrentVaultKeeps', res.data)
-                })
-                .catch(err => {
-                    commit('handleError', err)
-                })
+            if (vaultId) {
+                api(`vaults/${vaultId}/keeps`)
+                    .then(res => {
+                        commit('setCurrentVaultKeeps', res.data)
+                    })
+                    .catch(err => {
+                        commit('handleError', err)
+                    })
+            } else {
+                commit('setCurrentVaultKeeps', [])
+            }
         },
         submitKeepToVault({ commit, dispatch }, payload) {
             payload.vault.vaultKeeps.push(payload.keep._id)

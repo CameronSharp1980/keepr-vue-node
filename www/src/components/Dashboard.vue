@@ -224,6 +224,13 @@
         },
         mounted() {
             this.$store.dispatch('authenticate')
+            $('#vaultManageModal').on('hide.bs.modal', () => {
+                this.$store.dispatch('setCurrentVault', {})
+                this.$store.dispatch('getKeepsInVault', false)
+            })
+        },
+        beforeDestroy() {
+            $('#vaultManageModal').off('hide.bs.modal')
         },
         methods: {
             resetForms() {

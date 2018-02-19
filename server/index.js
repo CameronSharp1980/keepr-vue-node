@@ -50,7 +50,3 @@ app.use(keepRoutes.protected)
 server.listen(port, () => {
     console.log("Server listening on port: ", port)
 })
-
-
-// TO DO
-// PREVENT ADDING DUPLICATES ($addtoset)
