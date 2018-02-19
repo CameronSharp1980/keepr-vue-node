@@ -47,6 +47,6 @@ app.use('/', defaultErrorHandler)
 app.use(vaultRoutes.protected)
 app.use(keepRoutes.protected)
 
-server.listen(port, () => {
+server.listen(process.env.PORT || port, () => {
     console.log("Server listening on port: ", port)
 })
