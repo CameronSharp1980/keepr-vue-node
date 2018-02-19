@@ -5,7 +5,7 @@ import router from '../router'
 
 let auth = Axios.create({
     // baseURL: window.location.host.includes("localhost") ? 'http://localhost:3000/accounts/' : '/accounts/',
-    baseURL: window.location.host.includes("localhost") ? 'http://localhost:3000/' : '/accounts/',
+    baseURL: window.location.host.includes("localhost") ? 'http://localhost:3000/' : '/',
     timeout: 2000,
     withCredentials: true
 })
