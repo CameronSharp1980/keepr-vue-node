@@ -1,34 +1,18 @@
 <template>
-    <div class="logobar logobar-wrapper row">
+    <div class="logobar logobar-wrapper">
 
-        <div class="col-sm-1">
-            <img class="logo" src="../assets/keepr-logo.png" alt="Keepr Logo">
+        <img class="logo" src="../assets/keepr-logo.png" alt="Keepr Logo">
+        <span class="user-salutation" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
+
+        <div>
+            <span @click="changeLoginFormState(true)" class="black-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
+                v-if="!currentUser.username">Sign&nbspin</span>
+            <span @click="changeLoginFormState(false)" class="pink-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
+                v-if="!currentUser.username">Register</span>
+            <router-link :to="{ path: '/' }" class="pink-button router-button" v-if="currentUser.username">View&nbspKeeps</router-link>
+            <router-link :to="{ path: 'dashboard' }" class="pink-button router-button" v-if="currentUser.username">Dashboard</router-link>
+            <span @click="logout" class="pink-button hand-cursor" v-if="currentUser.username">Sign&nbspout</span>
         </div>
-
-        <div class="col-sm-3">
-            <span class="user-salutation" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
-        </div>
-
-        <div class="col-sm-1 col-sm-offset-6" v-if="!currentUser.username">
-            <button @click="changeLoginFormState(true)" class="black-button pull-right" type="button" data-toggle="modal" data-target="#signInModal">Sign&nbspin</button>
-        </div>
-
-        <div class="col-sm-1" v-if="!currentUser.username">
-            <button @click="changeLoginFormState(false)" class="pink-button pull-right" type="button" data-toggle="modal" data-target="#signInModal">Register</button>
-        </div>
-
-        <div class="col-sm-1 col-sm-offset-5" v-if="currentUser.username">
-            <router-link :to="{ path: '/' }" class="pink-button pull-right">View&nbspKeeps</router-link>
-        </div>
-
-        <div class="col-sm-1" v-if="currentUser.username">
-            <router-link :to="{ path: 'dashboard' }" class="pink-button pull-right">Dashboard</router-link>
-        </div>
-
-        <div class="col-sm-1" v-if="currentUser.username">
-            <button @click="logout" class="pink-button pull-right">Sign&nbspout</button>
-        </div>
-
 
         <!-- FORM MODAL -->
         <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel">
@@ -216,9 +200,11 @@
         background-color: #000000;
         margin-top: 15px;
         margin-bottom: 50px;
-    }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    .logo {}
+    }
 
     .user-salutation {
         color: #ffffff;
@@ -230,7 +216,16 @@
         outline: 1px solid #ffffff;
         border: none;
         color: #ffffff;
-        padding: 5px 10px 5px 10px;
+        padding: 8px 10px;
+        margin-left: 15px;
+    }
+
+    .black-button:hover,
+    .pink-button:hover {
+        background-color: #FFFFFF;
+        outline: 1px solid #000000;
+        border: none;
+        color: #000000;
     }
 
     .pink-button {
@@ -238,7 +233,12 @@
         outline: 1px solid #fd0090;
         border: none;
         color: #ffffff;
-        padding: 5px 10px 5px 10px;
+        padding: 8px 10px;
+        margin-left: 15px;
+    }
+
+    .router-button {
+        text-decoration: none;
     }
 
     .white-tab {

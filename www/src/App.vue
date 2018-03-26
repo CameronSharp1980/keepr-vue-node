@@ -59,6 +59,9 @@
 </script>
 
 <style>
+  body {
+    background-color: #888888;
+  }
   #app {
     min-height: 100vh;
   }

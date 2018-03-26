@@ -1,37 +1,36 @@
 <template>
     <div class="keep-display">
         <div class="row">
-            <div v-for="(keep, i) in keeps" v-if="keep.public">
-                <!-- <div class="keeps-div col-sm-3" v-if="i == 0">
-                    1
-                    <Keep :keepProp="keep"></Keep>
-                </div>
-                <div v-else-if="i % 4 == 0">
-                    <div class="row">
-                        2
-                        <div class="keeps-div col-sm-3">
-                            <Keep :keepProp="keep"></Keep>
-                        </div>
+            <div class="keeps-col col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12" v-for="(keep, i) in keeps[0]" v-if="keep.public">
+                        <Keep :keepProp="keep"></Keep>
                     </div>
                 </div>
-                <div class="keeps-div col-sm-3" v-else>
-                    3
-                    <Keep :keepProp="keep"></Keep>
-                </div> -->
-
-                <div class="keeps-div col-xs-3">
-                    <Keep :keepProp="keep"></Keep>
+            </div>
+            <div class="keeps-col col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12" v-for="(keep, i) in keeps[1]" v-if="keep.public">
+                        <Keep :keepProp="keep"></Keep>
+                    </div>
                 </div>
             </div>
-
-            <!-- <div class="keeps-div col-xs-3">
-                    <Keep :keepProp="keep"></Keep>
+            <div class="keeps-col col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12" v-for="(keep, i) in keeps[2]" v-if="keep.public">
+                        <Keep :keepProp="keep"></Keep>
+                    </div>
                 </div>
-                <div class="clearfix visible-xs-12" v-if="i % 4 === 0 && i != 0"></div>
-            </div> -->
+            </div>
+            <div class="keeps-col col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12" v-for="(keep, i) in keeps[3]" v-if="keep.public">
+                        <Keep :keepProp="keep"></Keep>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- </div> -->
 </template>
 
 <script>
@@ -51,7 +50,15 @@
         },
         computed: {
             keeps() {
-                return this.$store.state.keeps
+                var keepsArr = [[], [], [], []];
+                var section = 0;
+                var allKeeps = this.$store.state.keeps;
+                for (var i = 0; i < allKeeps.length; i++) {
+                    if (section > 3) section = 0;
+                    keepsArr[section].push(allKeeps[i])
+                    section++;
+                }
+                return keepsArr;
             }
         },
         components: {
