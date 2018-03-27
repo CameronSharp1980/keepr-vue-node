@@ -5,13 +5,13 @@
             <span class="user-salutation" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
 
             <div class="logo-buttons">
-                <span @click="changeLoginFormState(true)" class="black-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
+                <span @click="changeLoginFormState(true)" class="black-button logo-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
                     v-if="!currentUser.username">Sign&nbspin</span>
-                <span @click="changeLoginFormState(false)" class="pink-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
+                <span @click="changeLoginFormState(false)" class="pink-button logo-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
                     v-if="!currentUser.username">Register</span>
-                <router-link :to="{ path: '/' }" class="pink-button router-button" v-if="currentUser.username">View&nbspKeeps</router-link>
-                <router-link :to="{ path: 'dashboard' }" class="pink-button router-button" v-if="currentUser.username">Dashboard</router-link>
-                <span @click="logout" class="pink-button hand-cursor" v-if="currentUser.username">Sign&nbspout</span>
+                <router-link :to="{ path: '/' }" class="pink-button logo-button router-button" v-if="currentUser.username">View&nbspKeeps</router-link>
+                <router-link :to="{ path: 'dashboard' }" class="pink-button logo-button router-button" v-if="currentUser.username">Dashboard</router-link>
+                <span @click="logout" class="pink-button logo-button hand-cursor" v-if="currentUser.username">Sign&nbspout</span>
             </div>
         </div>
 
@@ -27,13 +27,13 @@
                     </div> -->
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-12" v-if="loginForm">
+                            <div class="col-xs-12" v-if="loginForm">
                                 <div class="row text-center">
-                                    <div class="col-sm-6 white-tab" @click="changeLoginFormState(true)">
+                                    <div class="col-xs-6 white-tab" @click="changeLoginFormState(true)">
                                         <!-- <button class="blank-button white-tab" @click="changeLoginFormState(true)">Sign in</button> -->
                                         <p>Sign In</p>
                                     </div>
-                                    <div class="col-sm-6 grey-tab" @click="changeLoginFormState(false)">
+                                    <div class="col-xs-6 grey-tab" @click="changeLoginFormState(false)">
                                         <!-- <button class="blank-button grey-tab" @click="changeLoginFormState(false)">Register</button> -->
                                         <p>Register</p>
                                     </div>
@@ -59,13 +59,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12" v-else>
+                            <div class="col-xs-12" v-else>
                                 <div class="row text-center">
-                                    <div class="col-sm-6 grey-tab" @click="changeLoginFormState(true)">
+                                    <div class="col-xs-6 grey-tab" @click="changeLoginFormState(true)">
                                         <!-- <button class="blank-button white-tab" @click="changeLoginFormState(true)">Sign in</button> -->
                                         <p>Sign In</p>
                                     </div>
-                                    <div class="col-sm-6 white-tab" @click="changeLoginFormState(false)">
+                                    <div class="col-xs-6 white-tab" @click="changeLoginFormState(false)">
                                         <!-- <button class="blank-button grey-tab" @click="changeLoginFormState(false)">Register</button> -->
                                         <p>Register</p>
                                     </div>
@@ -210,6 +210,10 @@
         }
     }
 
+    .logo-button{
+        margin: 5px;
+    }
+
     .logo-buttons {
         display: flex;
         justify-content: space-around;
@@ -251,7 +255,6 @@
         border: none;
         color: #ffffff;
         padding: 8px 10px;
-        margin: 10px;
     }
 
     .router-button {
