@@ -11,7 +11,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading dash-heading">
                         <span>My Dashboard</span>
-                        <div class="dash-buttons pull-right">
+                        <span></span>
+                        <div class="dash-buttons">
                             <span @click="makeVaultKeep('keep')" class="hand-cursor active-button dash-button fa fa-xing" v-if="makingKeep"></span>
                             <span @click="makeVaultKeep('keep')" class="hand-cursor dash-button fa fa-xing" v-else></span>
                             <span @click="makeVaultKeep('vault')" class="hand-cursor active-button dash-button fa fa-vimeo" v-if="makingVault"></span>
@@ -38,9 +39,9 @@
                                     <input type="checkbox" name="public" v-model='makeKeep.public'>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="pink-button wide-button pull-left">Create Keep</button>
-                                    <button class="grey-button center-button pull-left" data-toggle="modal" data-target="#keepManageModal">Manage Keeps</button>
-                                    <button @click="resetForms" class="purple-button wide-button pull-right">Reset</button>
+                                    <button type="submit" class="pink-button wide-button pull-left management-button">Create Keep</button>
+                                    <button class="grey-button center-button pull-left management-button" data-toggle="modal" data-target="#keepManageModal">Manage Keeps</button>
+                                    <button @click="resetForms" class="purple-button wide-button pull-right management-button">Reset</button>
                                 </div>
                             </form>
                         </div>
@@ -55,9 +56,9 @@
                                         required>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="pink-button wide-button pull-left">Create Vault</button>
-                                    <button class="grey-button center-button pull-left" data-toggle="modal" data-target="#vaultManageModal">Manage Vaults</button>
-                                    <button @click="resetForms" class="purple-button wide-button pull-right">Reset</button>
+                                    <button type="submit" class="pink-button wide-button pull-left management-button">Create Vault</button>
+                                    <button class="grey-button center-button pull-left management-button" data-toggle="modal" data-target="#vaultManageModal">Manage Vaults</button>
+                                    <button @click="resetForms" class="purple-button wide-button pull-right management-button">Reset</button>
                                 </div>
                             </form>
                         </div>
@@ -320,9 +321,26 @@
         margin-bottom: 20px;
     }
 
+    .panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    @media screen and (max-width: 380px) {
+        .panel-heading {
+            flex-direction: column;
+        }
+    }
+
     .dash-heading {
         font-size: 2.5em;
         color: #52525c
+    }
+
+    .dash-buttons {
+        display: flex;
     }
 
     .dash-button {
@@ -330,11 +348,30 @@
         background-color: #fd0090;
         color: #ffffff;
         padding: 10px;
+        margin: 5px;
         outline: 2px solid #fd0090;
+    }
+
+    .management-button {
+        font-size: 1.5vw;
+    }
+
+    @media screen and (max-width: 600px){
+        .management-button{
+            font-size: 2.5vw;
+        }
+    }
+
+    @media screen and (min-width: 1600px){
+        .management-button{
+            font-size: 1.25vw;
+        }
     }
 
     .active-button {
         outline: 2px solid #9854bb;
+        color: #fd0090;
+        background-color: #ffffff;
     }
 
     .pink-button {

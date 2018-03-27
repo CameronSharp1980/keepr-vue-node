@@ -207,10 +207,10 @@
         },
         methods: {
             incrementSocials(socialArg) {
-                if(socialArg == "views"){
+                if (socialArg == "views") {
                     this.keepProp.views++
                     this.$store.dispatch('incrementSocials', { currentUser: this.currentUser, keep: this.keepProp, keepData: { views: this.keepProp.views } })
-                }else if(socialArg == "keeps"){
+                } else if (socialArg == "keeps") {
                     this.keepProp.keeps++
                     this.$store.dispatch('incrementSocials', { currentUser: this.currentUser, keep: this.keepProp, keepData: { keeps: this.keepProp.keeps } })
                 }
@@ -333,8 +333,20 @@
 
     .keep-title {
         font-family: sans-serif;
-        font-size: 1.75em;
+        font-size: 1.75vw;
         font-weight: 100;
+    }
+
+    @media screen and (min-width: 1300px) {
+        .keep-title {
+            font-size: 1.5vw;
+        }
+    }
+
+    @media screen and (max-width: 770px) {
+        .keep-title {
+            font-size: 4vw;
+        }
     }
 
     .thumbnail {
