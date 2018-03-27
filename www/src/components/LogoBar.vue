@@ -1,17 +1,18 @@
 <template>
-    <div class="logobar logobar-wrapper">
+    <div class="logobar-container">
+        <div class="logobar">
+            <img class="logo" src="../assets/keepr-logo.png" alt="Keepr Logo">
+            <span class="user-salutation" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
 
-        <img class="logo" src="../assets/keepr-logo.png" alt="Keepr Logo">
-        <span class="user-salutation" v-if="currentUser.username">Hi, {{currentUser.firstName}}</span>
-
-        <div>
-            <span @click="changeLoginFormState(true)" class="black-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
-                v-if="!currentUser.username">Sign&nbspin</span>
-            <span @click="changeLoginFormState(false)" class="pink-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
-                v-if="!currentUser.username">Register</span>
-            <router-link :to="{ path: '/' }" class="pink-button router-button" v-if="currentUser.username">View&nbspKeeps</router-link>
-            <router-link :to="{ path: 'dashboard' }" class="pink-button router-button" v-if="currentUser.username">Dashboard</router-link>
-            <span @click="logout" class="pink-button hand-cursor" v-if="currentUser.username">Sign&nbspout</span>
+            <div class="logo-buttons">
+                <span @click="changeLoginFormState(true)" class="black-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
+                    v-if="!currentUser.username">Sign&nbspin</span>
+                <span @click="changeLoginFormState(false)" class="pink-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
+                    v-if="!currentUser.username">Register</span>
+                <router-link :to="{ path: '/' }" class="pink-button router-button" v-if="currentUser.username">View&nbspKeeps</router-link>
+                <router-link :to="{ path: 'dashboard' }" class="pink-button router-button" v-if="currentUser.username">Dashboard</router-link>
+                <span @click="logout" class="pink-button hand-cursor" v-if="currentUser.username">Sign&nbspout</span>
+            </div>
         </div>
 
         <!-- FORM MODAL -->
@@ -191,19 +192,35 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .logobar-wrapper {
-        padding: 15px;
-    }
-
     .logobar {
         /* height: 75px; */
         background-color: #000000;
         margin-top: 15px;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 10px;
 
+    }
+
+    @media screen and (max-width: 600px) {
+        .logobar {
+            flex-direction: column;
+        }
+    }
+
+    .logo-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    @media screen and (max-width: 370px) {
+        .logo-buttons {
+            flex-direction: column;
+        }
     }
 
     .user-salutation {
@@ -217,7 +234,7 @@
         border: none;
         color: #ffffff;
         padding: 8px 10px;
-        margin-left: 15px;
+        margin: 10px;
     }
 
     .black-button:hover,
@@ -234,7 +251,7 @@
         border: none;
         color: #ffffff;
         padding: 8px 10px;
-        margin-left: 15px;
+        margin: 10px;
     }
 
     .router-button {
