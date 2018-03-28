@@ -9,8 +9,8 @@
                     v-if="!currentUser.username">Sign&nbspin</span>
                 <span @click="changeLoginFormState(false)" class="pink-button logo-button hand-cursor" type="button" data-toggle="modal" data-target="#signInModal"
                     v-if="!currentUser.username">Register</span>
-                <router-link :to="{ path: '/' }" class="pink-button logo-button router-button" v-if="currentUser.username">View&nbspKeeps</router-link>
-                <router-link :to="{ path: 'dashboard' }" class="pink-button logo-button router-button" v-if="currentUser.username">Dashboard</router-link>
+                <router-link :to="{ path: '/' }" class="pink-button logo-button router-button" v-if="currentUser.username">View&nbsp;All&nbsp;Keeps</router-link>
+                <router-link :to="{ path: 'dashboard' }" class="pink-button logo-button router-button" v-if="currentUser.username">My&nbsp;Dashboard</router-link>
                 <span @click="logout" class="pink-button logo-button hand-cursor" v-if="currentUser.username">Sign&nbspout</span>
             </div>
         </div>

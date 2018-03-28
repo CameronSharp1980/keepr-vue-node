@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="dash-message-bar">
-                    <span>Hello {{currentUser.firstName}} {{currentUser.lastName}}, Here you may post your own keeps, manage your
+                    <span>Hello {{currentUser.firstName}} {{currentUser.lastName}}, here you may post your own keeps, manage your
                         vaults, and be awesome!</span>
                 </div>
             </div>
@@ -81,42 +81,41 @@
                     </div>
                     <div class="modal-body max-height-80vh">
                         <div class="row">
-                            <div class="col-xs-6">
-                                <div class="row">
+                            <div class="col-xs-5 col-xs-offset-1">
+                                <div class="row flex flex-column">
                                     <div class="col-xs-12" v-for="vault in userVaults">
-                                        <div class="row">
-                                            <div @click="setCurrentVaultAndKeeps(vault)" class="col-xs-10 height-100 text-center manager-thumb-div">
+                                        <div class="row flex">
+                                            <div @click="setCurrentVaultAndKeeps(vault)" class="height-100 text-center vault-manager-title-div">
                                                 <span class="manager-title">{{vault.name}}</span>
                                             </div>
                                             <!-- <div class="col-xs-7 height-100 text-center manager-title-div">
                                                 <span class="manager-title">{{vault.description}}</span>
                                             </div> -->
-                                            <div class="hand-cursor col-xs-2 height-100 text-center manager-controls-div">
+                                            <div class="hand-cursor height-100 text-center manager-controls-div">
                                                 <i @click="removeVault(vault)" class="fa fa-ban manager-controls"></i>
                                                 <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-6">
-                                <div class="row">
-                                    <div class="col-xs-12" v-for="(keep, i) in currentVaultKeeps" v-if="currentVaultKeeps.length > 0">
-                                        <div class="row">
-                                            <div class="col-xs-2 vault-keep-entry">
-                                                <img class=" vault-keep-entry-thumb" :src="keep.imageUrl" :alt="keep.name">
+                            <div class="col-xs-5">
+                                <div class="row flex flex-column">
+                                    <div class="col-xs-12 vault-keep-row" v-for="(keep, i) in currentVaultKeeps" v-if="currentVaultKeeps.length > 0">
+                                        <div class="row flex">
+                                            <div class="flex vault-keep-entry vault-keep-entry-thumb">
+                                                <img :src="keep.imageUrl" :alt="keep.name">
                                             </div>
-                                            <div class="vault-keep-entry grey col-xs-8" v-if="i % 2 == 0">
+                                            <div class="flex vault-keep-entry vault-keep-entry-name grey" v-if="i % 2 == 0">
                                                 <span>{{keep.name}}</span>
                                             </div>
-                                            <div class="vault-keep-entry col-xs-8" v-else>
+                                            <div class="flex vault-keep-entry vault-keep-entry-name" v-else>
                                                 <span>{{keep.name}}</span>
                                             </div>
-                                            <div class="hand-cursor text-center vault-keep-entry grey col-xs-2" v-if="i % 2 == 0">
+                                            <div class="flex hand-cursor text-center vault-keep-entry vault-keep-entry-controls grey" v-if="i % 2 == 0">
                                                 <i @click="removeKeepFromVault(keep)" class="fa fa-ban"></i>
                                             </div>
-                                            <div class="hand-cursor text-center vault-keep-entry col-xs-2" v-else>
+                                            <div class="flex hand-cursor text-center vault-keep-entry vault-keep-entry-controls" v-else>
                                                 <i @click="removeKeepFromVault(keep)" class="fa fa-ban"></i>
                                             </div>
                                         </div>
@@ -149,31 +148,32 @@
                         <h4 class="modal-title">Keep Manager</h4>
                     </div>
                     <div class="modal-body max-height-80vh">
-                        <div class="row"></div>
-                        <div class="col-xs-7 col-xs-offset-3 text-center">
-                            <h5 class="column-title">Keeps:</h5>
-                        </div>
-                        <div class="col-xs-12" v-for="keep in userKeeps">
-                            <div class="row">
-                                <div class="col-xs-3 height-100 text-center manager-thumb-div">
-                                    <img class="manager-thumb" :src="keep.imageUrl" :alt="keep.name">
-                                </div>
-                                <div class="col-xs-7 height-100 text-center manager-title-div">
-                                    <span class="manager-title">{{keep.name}}</span>
-                                </div>
-                                <div class="hand-cursor col-xs-1 height-100 text-center manager-controls-div">
-                                    <!-- <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i> -->
-                                    <i @click="togglePublic(keep)" class="fa fa-lock manager-controls" v-if="!keep.public"></i>
-                                    <i @click="togglePublic(keep)" class="fa fa-unlock manager-controls" v-else></i>
-                                </div>
-                                <div class="hand-cursor col-xs-1 height-100 text-center manager-controls-div">
-                                    <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i>
-                                    <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
-                                </div>
-
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <h5 class="column-title">Keeps:</h5>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1" v-for="keep in userKeeps">
+                                <div class="row flex">
+                                    <div class="height-100 text-center manager-thumb-div">
+                                        <img class="manager-thumb" :src="keep.imageUrl" :alt="keep.name">
+                                    </div>
+                                    <div class="height-100 text-center manager-title-div">
+                                        <span class="manager-title">{{keep.name}}</span>
+                                    </div>
+                                    <div class="hand-cursor height-100 text-center manager-controls-div">
+                                        <!-- <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i> -->
+                                        <i @click="togglePublic(keep)" class="fa fa-lock manager-controls" v-if="!keep.public"></i>
+                                        <i @click="togglePublic(keep)" class="fa fa-unlock manager-controls" v-else></i>
+                                    </div>
+                                    <div class="hand-cursor height-100 text-center manager-controls-div">
+                                        <i @click="removeKeep(keep)" class="fa fa-ban manager-controls"></i>
+                                        <!-- <i class="fa fa-arrow-circle-o-up manager-controls"></i> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="modal-footer">
@@ -356,14 +356,14 @@
         font-size: 1.5vw;
     }
 
-    @media screen and (max-width: 600px){
-        .management-button{
+    @media screen and (max-width: 600px) {
+        .management-button {
             font-size: 2.5vw;
         }
     }
 
-    @media screen and (min-width: 1600px){
-        .management-button{
+    @media screen and (min-width: 1600px) {
+        .management-button {
             font-size: 1.25vw;
         }
     }
@@ -417,33 +417,102 @@
         border-radius: 0;
     }
 
+    .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flex-column {
+        flex-direction: column;
+    }
+
     .manager-thumb-div {
+        outline: 1px solid #000000;
         background-color: #fd0090;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 25%;
+    }
+
+    .vault-manager-title-div {
+        outline: 1px solid #000000;
+        background-color: #fd0090;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 90%;
     }
 
     .manager-thumb {
-        height: 85%;
-        /* margin: auto; */
+        max-height: 85%;
+        max-width: 85%;
     }
 
     .manager-title-div {
+        outline: 1px solid #000000;
         background-color: #9854bb;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 55%;
     }
 
     .manager-title {
-        font-size: 2em;
-        line-height: 100px;
+        font-size: 5vw;
         color: #ffffff;
     }
 
+    @media screen and (min-width: 800px) {
+        .manager-title {
+            font-size: 2.5vw;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        .manager-title {
+            font-size: 1.75vw;
+        }
+    }
+
+    @media screen and (min-width: 2000px) {
+        .manager-title {
+            font-size: 1.5vw;
+        }
+    }
+
     .manager-controls-div {
+        outline: 1px solid #000000;
         background-color: #F5F5F4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 10%;
     }
 
     .manager-controls {
-        font-size: 2em;
-        line-height: 100px;
+        font-size: 1.5vw;
         color: #000000;
+    }
+
+    @media screen and (max-width: 700px) {
+        .manager-controls {
+            font-size: 5vw;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .manager-controls {
+            font-size: 2.5vw;
+        }
+    }
+
+
+    @media screen and (max-width: 1500px) {
+        .manager-controls {
+            font-size: 2.5vw;
+        }
     }
 
     .height-100 {
@@ -455,14 +524,43 @@
         overflow: auto;
     }
 
+    .vault-keep-row{
+        margin-left: 5px;
+    }
+
     .vault-keep-entry {
-        font-size: 1.25em;
+        /* font-size: 1.25em; */
         height: 50px;
-        line-height: 50px;
     }
 
     .vault-keep-entry-thumb {
-        height: 100%;
+        flex-basis: 25%;
+        background-color: #9854bb;
+    }
+
+    .vault-keep-entry-thumb img {
+        max-width: 85%;
+        max-height: 85%;
+    }
+
+    .vault-keep-entry-name {
+        flex-basis: 65%;
+    }
+
+    @media screen and (max-width: 400px){
+        .vault-keep-entry-name{
+            font-size: 1rem;
+        }
+    }
+
+    @media screen and (min-width: 1200px){
+        .vault-keep-entry-name{
+            font-size: 2rem;
+        }
+    }
+
+    .vault-keep-entry-controls {
+        flex-basis: 10%;
     }
 
     .grey {
